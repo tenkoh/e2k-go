@@ -31,3 +31,6 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# Upstream weights, fetched by `make fetch-model`; not redistributed here
+/testdata/model-c2k.safetensors
