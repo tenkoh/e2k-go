@@ -5,11 +5,13 @@
 """Generates the test fixtures from the upstream reference implementation.
 
     uv run testdata/gen.py tiny   # tiny-c2k.safetensors and tiny-c2k.json
+    uv run testdata/gen.py edge   # tiny-edge-c2k.safetensors and tiny-edge-c2k.json
     uv run testdata/gen.py real   # real-c2k.json, needs testdata/model-c2k.safetensors
 """
 
 import hashlib
 import importlib.util
+import itertools
 import json
 import struct
 import sys
@@ -40,6 +42,8 @@ TINY_CASES = [
     "cc",
     "ba",
 ]
+
+EDGE_CASES = ["".join(p) for n in range(1, 4) for p in itertools.product("abc", repeat=n)]
 
 REAL_CASES = [
     "geogaddi",
@@ -194,6 +198,47 @@ def gen_tiny(mod):
     dump(HERE / "tiny-c2k.json", cases)
 
 
+def edge_weights():
+    """The tiny model, altered so upstream's numerics show in the outputs."""
+    tensors, metadata = tiny_weights()
+    d = tensors["attn.out_proj.weight"].shape[0]
+    # Large query and key projections overflow exp in the softmax, which has no
+    # max subtraction, so some inputs turn inf / inf into NaN.
+    tensors["attn.in_proj_weight"][: 2 * d] *= 3
+    fc = tensors["fc.weight"]
+    # Equal rows tie exactly, and argmax must keep the first. The raised bias
+    # makes the tied pair win often enough to matter.
+    fc[4] = fc[3]
+    tensors["fc.bias"][3:5] = tensors["fc.bias"][3] + 2
+    # inf - inf makes this one logit NaN while the others stay finite, and argmax
+    # must pick the first NaN.
+    fc[5, :2] = [np.inf, -np.inf]
+    return tensors, metadata
+
+
+def gen_edge(mod):
+    model = HERE / "tiny-edge-c2k.safetensors"
+    write_safetensors(model, *edge_weights())
+    c2k = mod.C2K(path=str(model))
+    cases, seen = [], {"overflow": 0, "nan pick": 0, "tie pick": 0}
+    with np.errstate(over="ignore", invalid="ignore"):
+        for word in EDGE_CASES:
+            out, rec = trace(mod, c2k, word)
+            cases.append({"input": word, "output": out})
+            for logits in map(np.array, rec["logits"]):
+                nan = np.isnan(logits)
+                if nan.all():
+                    seen["overflow"] += 1
+                    break
+                pick = mod.greedy(logits)
+                seen["nan pick"] += bool(nan[pick])
+                seen["tie pick"] += bool(not nan.any() and (logits == logits[pick]).sum() > 1)
+    print(seen)
+    if not all(seen.values()):
+        sys.exit("the edge model no longer exercises every rule, adjust edge_weights")
+    dump(HERE / "tiny-edge-c2k.json", cases)
+
+
 def gen_real(mod):
     model = HERE / "model-c2k.safetensors"
     if hashlib.sha256(model.read_bytes()).hexdigest() != MODEL_SHA256:
@@ -207,7 +252,7 @@ def dump(path: Path, cases):
 
 
 if __name__ == "__main__":
-    cmds = {"tiny": gen_tiny, "real": gen_real}
+    cmds = {"tiny": gen_tiny, "edge": gen_edge, "real": gen_real}
     if len(sys.argv) != 2 or sys.argv[1] not in cmds:
         sys.exit(__doc__)
     cmds[sys.argv[1]](load_upstream())
