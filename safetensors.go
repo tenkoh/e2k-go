@@ -1,12 +1,14 @@
 package e2k
 
 import (
+	"cmp"
 	"encoding/binary"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"math"
+	"slices"
 )
 
 // maxHeaderLen bounds the JSON header. The C2K header is a few KiB.
@@ -60,14 +62,24 @@ func readSafetensors(r io.Reader) (map[string]tensor, map[string]string, error) 
 	}
 
 	infos := make(map[string]tensorInfo, len(header))
-	var bodyLen uint64
+	ranges := make([][2]uint64, 0, len(header))
 	for name, msg := range header {
 		info, err := parseTensorInfo(msg)
 		if err != nil {
 			return nil, nil, fmt.Errorf("tensor %q: %w", name, err)
 		}
 		infos[name] = info
-		bodyLen = max(bodyLen, info.DataOffsets[1])
+		ranges = append(ranges, [2]uint64(info.DataOffsets))
+	}
+	// Like the safetensors spec, require the tensors to tile the body. Overlapping
+	// ranges would let a small file decode into many times its size.
+	slices.SortFunc(ranges, func(a, b [2]uint64) int { return cmp.Or(cmp.Compare(a[0], b[0]), cmp.Compare(a[1], b[1])) })
+	var bodyLen uint64
+	for _, rg := range ranges {
+		if rg[0] != bodyLen {
+			return nil, nil, fmt.Errorf("tensor data at %d, want %d: overlapping or gapped data_offsets", rg[0], bodyLen)
+		}
+		bodyLen = rg[1]
 	}
 
 	// LimitReader keeps a lying header from forcing one huge allocation.
