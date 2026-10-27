@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"runtime"
 	"strings"
 	"sync"
 	"testing"
@@ -274,6 +275,11 @@ func TestLoadMalformed(t *testing.T) {
 		"bias as matrix":         tensorField("fc.bias", "shape", []any{8, 1}),
 		"gru hh not 3h rows":     tensorField("encoder.weight_hh_l0", "shape", []any{25, 3}),
 		"pre_decoder hh vs bias": tensorField("pre_decoder.weight_hh_l0", "shape", []any{12, 16}),
+		"overlapping offsets":    tensorField("fc.bias", "data_offsets", []any{0, 16}),
+		"extra tensor": edit(func(h map[string]any) {
+			_, body := tinyParts(t)
+			h["encoder.weight_ih_l1"] = map[string]any{"dtype": "F16", "shape": []any{0}, "data_offsets": []any{len(body), len(body)}}
+		}),
 	}
 	for name, build := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -286,6 +292,26 @@ func TestLoadMalformed(t *testing.T) {
 			}
 		})
 	}
+
+	t.Run("aliased tensors stay small", func(t *testing.T) {
+		// Many tensors over the same 1 MiB used to decode into gigabytes before
+		// any error was reported.
+		const n, size = 1000, 1 << 20
+		h := map[string]any{}
+		for i := range n {
+			h[fmt.Sprint("t", i)] = map[string]any{"dtype": "F16", "shape": []any{size / 2}, "data_offsets": []any{0, size}}
+		}
+		file := encode(t, h, make([]byte, size))
+		var before, after runtime.MemStats
+		runtime.ReadMemStats(&before)
+		if _, err := LoadC2K(bytes.NewReader(file)); err == nil {
+			t.Fatal("LoadC2K succeeded")
+		}
+		runtime.ReadMemStats(&after)
+		if got := after.TotalAlloc - before.TotalAlloc; got > 64<<20 {
+			t.Errorf("LoadC2K allocated %d MiB for a %d MiB file", got>>20, len(file)>>20)
+		}
+	})
 
 	t.Run("every truncation", func(t *testing.T) {
 		for n := range len(good) {

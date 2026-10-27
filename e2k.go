@@ -6,6 +6,8 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"maps"
+	"slices"
 	"strconv"
 	"strings"
 	"unicode/utf8"
@@ -182,6 +184,9 @@ func newC2K(t map[string]tensor, meta map[string]string) (*C2K, error) {
 	l.check(m.pre.hidden() == d, "pre_decoder hidden size %d != attention dim %d", m.pre.hidden(), d)
 	m.post = l.gru("post_decoder.%s_l0", 2*d)
 	m.fc = l.linear("fc.weight", "fc.bias", len(m.outTable), m.post.hidden())
+	if l.err == nil && len(l.t) > 0 {
+		l.err = fmt.Errorf("unexpected tensor %q", slices.Min(slices.Collect(maps.Keys(l.t))))
+	}
 	if l.err != nil {
 		return nil, l.err
 	}
@@ -217,7 +222,8 @@ func metaIndex(meta map[string]string, key string, limits ...int) (int, error) {
 	return i, nil
 }
 
-// loader looks up tensors by name and shape. After the first error it keeps
+// loader looks up tensors by name and shape, removing each one it returns so
+// that leftovers can be reported as unexpected. After the first error it keeps
 // that error and returns zero values, so newC2K checks it once at the end.
 type loader struct {
 	t   map[string]tensor
@@ -242,6 +248,7 @@ func (l *loader) get(name string, shape ...int) ([]float32, []int) {
 		l.check(false, "missing tensor %q", name)
 		return nil, zero
 	}
+	delete(l.t, name)
 	match := len(t.shape) == len(shape)
 	for i := 0; match && i < len(shape); i++ {
 		match = shape[i] == -1 || shape[i] == t.shape[i]
