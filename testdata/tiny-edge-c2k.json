@@ -1,0 +1,158 @@
+[
+ {
+  "input": "a",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "b",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "c",
+  "output": "ウウウウウウウウウウウ<pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "aa",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "ab",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "ac",
+  "output": "アアアアアアアアアアアアアアアア"
+ },
+ {
+  "input": "ba",
+  "output": "<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bb",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bc",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "ca",
+  "output": "ウウウウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "cb",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "cc",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "aaa",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "aab",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "aac",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "aba",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "abb",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "abc",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "aca",
+  "output": "ウウウウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "acb",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "acc",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "baa",
+  "output": "<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bab",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bac",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bba",
+  "output": "<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bbb",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bbc",
+  "output": "ウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bca",
+  "output": "<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bcb",
+  "output": "<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "bcc",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "caa",
+  "output": "ウウウウウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "cab",
+  "output": "ウウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "cac",
+  "output": "ウウウウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "cba",
+  "output": "ウウウウウウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "cbb",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "cbc",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "cca",
+  "output": "ウウウウウ<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+ },
+ {
+  "input": "ccb",
+  "output": "ウウウウウウウウウウウウウウウウ"
+ },
+ {
+  "input": "ccc",
+  "output": "ウウウウウウウウウウウ<pad><pad><pad><pad><pad>"
+ }
+]

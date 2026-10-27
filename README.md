@@ -51,5 +51,7 @@ sources. `ConvertContext` stops early when its context is cancelled.
 - `make fetch-model` downloads the weights into `testdata/` and verifies their SHA-256.
 - `make check` runs the formatters, linters and tests.
 - `uv run testdata/gen.py tiny` regenerates the tiny model and its trace fixture
-  from the upstream Python implementation. `uv run testdata/gen.py real`
-  regenerates the expected outputs of the real model.
+  from the upstream Python implementation. `uv run testdata/gen.py edge`
+  regenerates a variant of it that overflows the softmax, produces NaN logits
+  and ties logits exactly. `uv run testdata/gen.py real` regenerates the
+  expected outputs of the real model.
