@@ -16,6 +16,7 @@ jobs:
   check:
     name: check
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
     env:
@@ -37,6 +38,7 @@ jobs:
   zizmor:
     name: zizmor
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: read
     steps:

@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 const (
@@ -38,7 +39,10 @@ func fetch(dst string) error {
 		return err
 	}
 
-	resp, err := http.Get(modelURL)
+	// The file is a few MB; the default client would wait forever on a stalled
+	// connection.
+	client := &http.Client{Timeout: 2 * time.Minute}
+	resp, err := client.Get(modelURL)
 	if err != nil {
 		return err
 	}
