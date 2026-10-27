@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+  - package-ecosystem: gomod
+    directories:
+      - /
+      - /tools
+    target-branch: develop
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7

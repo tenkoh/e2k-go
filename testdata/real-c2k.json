@@ -1,0 +1,134 @@
+[
+ {
+  "input": "geogaddi",
+  "output": "ジオガディ"
+ },
+ {
+  "input": "GeoGaddi",
+  "output": "ジオガディ"
+ },
+ {
+  "input": "GEOGADDI",
+  "output": "ジオガディ"
+ },
+ {
+  "input": "computer",
+  "output": "コンピューター"
+ },
+ {
+  "input": "coffee",
+  "output": "コーヒー"
+ },
+ {
+  "input": "bed",
+  "output": "ベット"
+ },
+ {
+  "input": "cookie",
+  "output": "クッキー"
+ },
+ {
+  "input": "check",
+  "output": "チェック"
+ },
+ {
+  "input": "violin",
+  "output": "ヴィオリン"
+ },
+ {
+  "input": "vegas",
+  "output": "ヴェガス"
+ },
+ {
+  "input": "tokyo",
+  "output": "トキオ"
+ },
+ {
+  "input": "music",
+  "output": "ミュージック"
+ },
+ {
+  "input": "shop",
+  "output": "ショップ"
+ },
+ {
+  "input": "jazz",
+  "output": "ジャズ"
+ },
+ {
+  "input": "hello",
+  "output": "ヘロー"
+ },
+ {
+  "input": "apple",
+  "output": "アップル"
+ },
+ {
+  "input": "game",
+  "output": "ゲーム"
+ },
+ {
+  "input": "water",
+  "output": "ウォーター"
+ },
+ {
+  "input": "new york",
+  "output": "ニューヨーク"
+ },
+ {
+  "input": "ice cream",
+  "output": "アイスクリーム"
+ },
+ {
+  "input": "rock'n'roll",
+  "output": "ロックロール"
+ },
+ {
+  "input": "don't",
+  "output": "ドンフ"
+ },
+ {
+  "input": "e-mail",
+  "output": "メール"
+ },
+ {
+  "input": "café",
+  "output": "キャフ"
+ },
+ {
+  "input": "ＡＢＣ",
+  "output": ""
+ },
+ {
+  "input": "İstanbul",
+  "output": "イスタンブル"
+ },
+ {
+  "input": "Kelvin",
+  "output": "ケルビン"
+ },
+ {
+  "input": "new\tyork",
+  "output": "ニューヨーク"
+ },
+ {
+  "input": "123",
+  "output": ""
+ },
+ {
+  "input": "!!!",
+  "output": ""
+ },
+ {
+  "input": "",
+  "output": ""
+ },
+ {
+  "input": "supercalifragilisticexpialidocious",
+  "output": "スーパーカリフラジカル"
+ },
+ {
+  "input": "antidisestablishmentarianism",
+  "output": "アンチディセスタブリッシュメンタ"
+ }
+]
